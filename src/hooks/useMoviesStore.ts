@@ -44,7 +44,20 @@ export const useMoviesStore = () => {
 
             dispatch(onLoadMovies(data));
 
-            console.log(movies);
+
+
+        } catch (error) {
+          console.log('Error loading movies');
+          console.log(error)
+        }
+    }
+
+    const startLoadingMoviesWithSearch = async(search:string) => {
+        try {
+            const { data } = await moviesApi.get(`api/Movies/Search?query=${search}`);
+
+            dispatch(onLoadMovies(data));
+
 
 
         } catch (error) {
@@ -58,6 +71,7 @@ export const useMoviesStore = () => {
         movies, 
 
         startLoadingMovies,
+        startLoadingMoviesWithSearch
         
     }
 }

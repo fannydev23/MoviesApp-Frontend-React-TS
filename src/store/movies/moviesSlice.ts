@@ -21,14 +21,15 @@ export const moviesSlice = createSlice({
     reducers: {
       onLoadMovies: (state, {payload=[]}) => {
         state.isLoading=false;
-        payload.forEach((m:Movie) => {
-            const exist = state.movies.some(movieDb=>movieDb.idMovie===m.idMovie);
+        // payload.forEach((m:Movie) => {
+        //     const exist = state.movies.some(movieDb=>movieDb.idMovie===m.idMovie);
 
-            if(!exist){
-              state.movies.push(m)
-            }
+        //     if(!exist){
+        //       state.movies.push(m)
+        //     }
 
-        });
+        // });
+        state.movies=[...payload];
         state.success=true;
         state.error=null;
       }

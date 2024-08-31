@@ -6,11 +6,16 @@ import { Genre } from '../../interfaces/genreInferface';
 
 export const GenreMenu = () => {
 
-    const {genres, startLoadingGenres} = useGenresStore();
+    const {genres, startLoadingGenres, setActiveGenre} = useGenresStore();
 
     useEffect(() => {
         startLoadingGenres();
-    }, [])
+    }, []);
+
+    const handleSelectGenre=(genre:Genre)=>{
+        console.log(genre)
+        setActiveGenre(genre);
+    }
     
 
     return (
@@ -22,6 +27,7 @@ export const GenreMenu = () => {
                             key={`gender_${g.idGender}_${g.gender}`}
                             label={g.gender}
                             className='genderChip'
+                            onClick={()=>handleSelectGenre(g)}
                         />
                     )
                 })

@@ -2,8 +2,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {RootState} from '../store/store'
 // import { Genre } from '../interfaces/genreInferface';
-import { onLoadGenres } from '../store/genres/genresSlice';
+import { onLoadGenres, onSelectGenre } from '../store/genres/genresSlice';
 import { moviesApi } from '../api';
+import { Genre } from '../interfaces/genreInferface';
+import { onLoadMovies } from '../store';
 
 
 // const generes:Genre[] = [
@@ -25,7 +27,7 @@ import { moviesApi } from '../api';
 export const useGenresStore = () => {
   
     const dispatch = useDispatch();
-    const { genres } = useSelector( (state:RootState) => state.genres );
+    const { genres, genreSelected } = useSelector( (state:RootState) => state.genres );
 
     const startLoadingGenres = async() => {
         try {
@@ -40,11 +42,32 @@ export const useGenresStore = () => {
         }
     }
 
+    const setActiveGenre=async(genre:Genre)=>{
+        try {
+
+            const url = genre.idGender!==0?`api/Movies/ByGenre/${genre.idGender}`:'api/Movies'
+
+            dispatch(onSelectGenre(genre))
+            const {data} = await moviesApi.get(url);
+            dispatch(onLoadMovies(data));
+
+
+        } catch (error) {
+          console.log('Error loading generes');
+          console.log(error)
+        }
+        
+
+        
+    }
+
 
     return {
         genres, 
+        genreSelected,
+
 
         startLoadingGenres,
-        
+        setActiveGenre
     }
 }

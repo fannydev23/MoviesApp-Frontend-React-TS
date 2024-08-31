@@ -4,13 +4,18 @@ import { Genre } from "../../interfaces/genreInferface"
 interface initState{
   isLoading:Boolean,
   genres:Genre[],
+  genreSelected:Genre|null,
   success:Boolean,
   error:String|null
 }
 
 const initialState:initState={
     isLoading:false,
-    genres:[],
+    genres:[{
+      idGender:0,
+      gender:'All'
+    }],
+    genreSelected:null,
     success:false,
     error:null
 }
@@ -29,11 +34,16 @@ export const genresSlice = createSlice({
             }
 
         });
+        state.genreSelected=null;
         state.success=true;
         state.error=null;
+      },
+      onSelectGenre:(state, {payload})=>{
+        state.genreSelected = payload;
       }
+      
 
     },
   })
   
-  export const { onLoadGenres } = genresSlice.actions
+  export const { onLoadGenres, onSelectGenre } = genresSlice.actions

@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import {RootState} from '../store/store'
-import { onLoadActors } from '../store';
-// import { Actors } from '../interfaces/actorsInterface';
+import { onLoadActors, onLoadMovies, onSelectActor } from '../store';
 import { moviesApi } from '../api';
+import { Actors } from '../interfaces/actorsInterface';
 
 
 // const actorsList:Actors[]=[
@@ -39,11 +39,30 @@ export const useActorsStore = () => {
         }
     }
 
+    const setActiveActor=async(actor:Actors)=>{
+        try {
+
+            const url = actor.idActor!==0?`api/Movies/ByActor/${actor.idActor}`:'api/Movies'
+
+            dispatch(onSelectActor(actor))
+            const {data} = await moviesApi.get(url);
+            dispatch(onLoadMovies(data));
+
+
+        } catch (error) {
+          console.log('Error loading generes');
+          console.log(error)
+        }
+        
+
+        
+    }
+
 
     return {
         actors, 
 
         startLoadingActors,
-        
+        setActiveActor
     }
 }

@@ -1,81 +1,65 @@
 import { useEffect, useState } from 'react'
-import { Button, Grid, IconButton, InputBase, Menu, MenuItem } from '@mui/material'
-import { Search } from '@mui/icons-material'
+import { Divider, Grid, IconButton, InputBase} from '@mui/material'
+import { Clear, Search } from '@mui/icons-material'
 import { GenreMenu } from '../../ui/components/GenreMenu'
 import { MovieItem } from '../components/MovieItem'
-import { Actors } from '../../interfaces/actorsInterface'
 import { useMoviesStore } from '../../hooks/useMoviesStore'
 import { Movie } from '../../interfaces/movieInterface'
-import { useActorsStore } from '../../hooks/useActorsStore'
+import { useGenresStore } from '../../hooks/useGenreStore'
+import { ActorsMenu } from '../../ui/ActorsMenu'
 
 
 export const MoviesPage = () => {
 
-    const {movies, startLoadingMovies} = useMoviesStore();
-
-    const {actors, startLoadingActors} = useActorsStore();
+    const {movies, startLoadingMovies, startLoadingMoviesWithSearch} = useMoviesStore();
 
 
-  const [search, setSearch] = useState<String>('');
+    const { genreSelected } = useGenresStore();
 
-  const [openMenu, setOpenMenu] = useState<Boolean>(false);
-  const [anchorEl, setAnchorEl] = useState<HTMLElement|null>(null);
+  const [search, setSearch] = useState<string>('');
+
 
   useEffect(() => {
     startLoadingMovies();
-    startLoadingActors();
-  }, [])
+  }, []);
 
-  const handleMenuClick=(e:React.MouseEvent<HTMLButtonElement>)=>{
-    setAnchorEl(e.currentTarget)
-    setOpenMenu(true)
+  useEffect(() => {
+    if(search.trim()===''){
+        startLoadingMovies()
+    }
+  }, [search])
+  
+
+  const handleSearch=()=>{
+    if(search!==''){
+        startLoadingMoviesWithSearch(search)
+    }else{
+        startLoadingMovies();
+    }
   }
 
-  const handleClose=()=>{
-    setAnchorEl(null);
+  const handleClear=()=>{
+    setSearch('');
+    startLoadingMovies();
   }
+
+
 
   return (
+
+    //Todo: Add loading spinner and message 
 
     <Grid item container xs={12} className='mainScreen' justifyContent='space-between' alignItems='center'>
       <h1>Movies</h1>
     
        
 
-      {/* Todo: This could be an encapsulated component for reuse in several pages */}
       <Grid item container xs={12} sm={6} md={6} lg={6} alignItems='center'>
         <Grid item xs={3}>
-            <Button
-                 id="actors-button"
-                 aria-controls={openMenu ? 'actors-menu' : undefined}
-                 aria-haspopup="true"
-                 aria-expanded={openMenu ? 'true' : undefined}
-                 onClick={handleMenuClick}
-               
-            >
-                Actores
-            </Button>
-
-            <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-                MenuListProps={{
-                'aria-labelledby': 'basic-button',
-                }}
-            >
-                
-                {
-                    actors.map((a:Actors)=>{
-                        return(
-                            <MenuItem key={a.idActor.toString()} onClick={handleClose}>{`${a.name} ${a.lastName}`}</MenuItem>
-                        )
-                    })
-                }
-            </Menu>
+            <ActorsMenu/>
         </Grid>
 
+      {/* Todo: This could be an encapsulated component for reuse in several pages */}
         <Grid item xs={8}>
             <InputBase
             type='search'
@@ -86,10 +70,19 @@ export const MoviesPage = () => {
                 setSearch(target.value)
             }}
             className='searchInput'
+            onKeyDown={(e)=>{
+                if(e.keyCode && e.keyCode===13) handleSearch();
+            }}
             endAdornment={
                 <>
 
-                    <IconButton style={{padding:'5px'}}>
+                    {
+                        search.trim().length>0 &&
+                        <IconButton style={{padding:'5px'}} onClick={handleClear}>
+                            <Clear style={{color:'#012e67'}}/>
+                        </IconButton>
+                    }
+                    <IconButton style={{padding:'5px'}} onClick={handleSearch}>
                         <Search style={{color:'#012e67'}}/>
                     </IconButton>
 
@@ -101,10 +94,16 @@ export const MoviesPage = () => {
 
       </Grid>
 
-      <Grid item container xs={12}>
+      <Grid item container xs={12} justifyContent='center'>
         <GenreMenu/>
-         
-         {
+
+        <Divider></Divider>
+
+        <Grid item xs={12} className='genreTitle'>{genreSelected && genreSelected.idGender?genreSelected.gender:'All'}</Grid>
+
+        <Grid item container xs={10} justifyContent='space-between'>
+        {
+            movies.length>0?
             movies.map((m:Movie)=>{
 
                 return(
@@ -114,7 +113,11 @@ export const MoviesPage = () => {
                     />
                 )
             })
+            :
+            <h3>{`No movies found for genre ${genreSelected?.gender}`}</h3>
          }
+        </Grid> 
+        
       </Grid>
 
 

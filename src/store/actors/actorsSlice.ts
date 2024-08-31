@@ -5,6 +5,7 @@ import { Actors } from "../../interfaces/actorsInterface";
 interface initState{
   isLoading:Boolean,
   actors:Actors[],
+  actorSelected:Actors|null,
   success:Boolean,
   error:String|null
 }
@@ -12,6 +13,7 @@ interface initState{
 const initialState:initState={
     isLoading:false,
     actors:[],
+    actorSelected:null,
     success:false,
     error:null
 }
@@ -33,9 +35,13 @@ export const actorsSlice = createSlice({
           });
           state.success=true;
           state.error=null;
+      },
+
+      onSelectActor:(state, {payload})=>{
+        state.actorSelected = payload;
       }
 
     },
   })
   
-  export const { onLoadActors } = actorsSlice.actions
+  export const { onLoadActors, onSelectActor } = actorsSlice.actions
