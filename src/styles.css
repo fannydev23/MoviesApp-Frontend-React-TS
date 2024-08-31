@@ -1,0 +1,46 @@
+html, body {
+    height: 100vh;
+    width: 100%;
+    padding: 0%;
+    margin: 0%;
+    font-family:Arial, Helvetica, sans-serif;
+    background-color: #001a33;
+  }
+  
+  .mainScreen{
+    padding: 20px;
+    color: white !important;
+  
+  }
+  
+  .searchInput{
+   background-color: white;
+   border-radius: 20px;
+   padding: 5px 10px;
+  
+  }
+  
+  .genderChip{
+    color: white !important;
+    font-size: 20px !important;
+    background-color: #0e263f !important;
+    margin-right:1rem !important;
+  }
+  
+  .marginT-1{
+    margin-top: 1rem !important;
+  }
+
+  .movieItem{
+    margin-top: 1rem !important;
+    padding: 10px;
+  }
+  
+  .moviePoster{
+    height: 300px;
+    width: auto;
+  }
+  
+  .movieTitle{
+    font-size: 20px !important;
+  }
