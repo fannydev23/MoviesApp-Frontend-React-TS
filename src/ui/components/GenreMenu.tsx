@@ -3,8 +3,12 @@ import { useGenresStore } from '../../hooks/useGenreStore'
 import { useEffect } from 'react';
 import { Genre } from '../../interfaces/genreInferface';
 
+type Props={
+    onChangeGenre:()=>void;
+}
 
-export const GenreMenu = () => {
+
+export const GenreMenu = ({onChangeGenre} : Props) => {
 
     const {genres, startLoadingGenres, setActiveGenre} = useGenresStore();
 
@@ -13,8 +17,8 @@ export const GenreMenu = () => {
     }, []);
 
     const handleSelectGenre=(genre:Genre)=>{
-        console.log(genre)
         setActiveGenre(genre);
+        onChangeGenre();
     }
     
 

@@ -48,4 +48,6 @@ html, body {
   
   .movieTitle{
     font-size: 20px !important;
+    width: 100% !important;
+    text-align: center !important;
   }

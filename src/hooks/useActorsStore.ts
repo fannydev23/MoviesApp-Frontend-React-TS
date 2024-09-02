@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import {RootState} from '../store/store'
-import { onLoadActors, onLoadMovies, onSelectActor } from '../store';
+import { onLoadActors, onLoadMovies, onSelectActor, onSelectGenre } from '../store';
 import { moviesApi } from '../api';
 import { Actors } from '../interfaces/actorsInterface';
 
@@ -47,7 +47,7 @@ export const useActorsStore = () => {
             dispatch(onSelectActor(actor))
             const {data} = await moviesApi.get(url);
             dispatch(onLoadMovies(data));
-
+            dispatch(onSelectGenre(null)); //Reset the genre selected
 
         } catch (error) {
           console.log('Error loading generes');

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Divider, Grid, IconButton, InputBase} from '@mui/material'
+import { Divider, Grid, Grid2, IconButton, InputBase} from '@mui/material'
 import { Clear, Search } from '@mui/icons-material'
 import { GenreMenu } from '../../ui/components/GenreMenu'
 import { MovieItem } from '../components/MovieItem'
@@ -48,6 +48,7 @@ export const MoviesPage = () => {
   return (
 
     //Todo: Add loading spinner and message 
+    //Make filters work together
 
     <Grid item container xs={12} className='mainScreen' justifyContent='space-between' alignItems='center'>
       <h1>Movies</h1>
@@ -56,7 +57,7 @@ export const MoviesPage = () => {
 
       <Grid item container xs={12} sm={6} md={6} lg={6} alignItems='center'>
         <Grid item xs={3}>
-            <ActorsMenu/>
+            <ActorsMenu onSelectActor={()=>setSearch('')}/>
         </Grid>
 
       {/* Todo: This could be an encapsulated component for reuse in several pages */}
@@ -95,13 +96,13 @@ export const MoviesPage = () => {
       </Grid>
 
       <Grid item container xs={12} justifyContent='center'>
-        <GenreMenu/>
+        <GenreMenu onChangeGenre={()=>setSearch('')}/>
 
         <Divider></Divider>
 
         <Grid item xs={12} className='genreTitle'>{genreSelected && genreSelected.idGender?genreSelected.gender:'All'}</Grid>
 
-        <Grid item container xs={10} justifyContent='space-between'>
+        <Grid item container md={12} lg={10} justifyContent='space-between'>
         {
             movies.length>0?
             movies.map((m:Movie)=>{
@@ -114,7 +115,7 @@ export const MoviesPage = () => {
                 )
             })
             :
-            <h3>{`No movies found for genre ${genreSelected?.gender}`}</h3>
+            <h3>{`No movies found`}</h3>
          }
         </Grid> 
         

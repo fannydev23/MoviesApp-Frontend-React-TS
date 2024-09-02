@@ -3,9 +3,12 @@ import { useActorsStore } from '../hooks/useActorsStore';
 import { Actors } from '../interfaces/actorsInterface'
 import { Button, Menu, MenuItem } from '@mui/material';
 
+type Props={
+    onSelectActor:()=>void;
+}
 
 
-export const ActorsMenu = () => {
+export const ActorsMenu = ({onSelectActor}:Props) => {
 
     const {actors, startLoadingActors, setActiveActor} = useActorsStore();
 
@@ -26,6 +29,7 @@ export const ActorsMenu = () => {
       }
 
       const handleSelectActor=(actor:Actors)=>{
+        onSelectActor();
         setActiveActor(actor)
         setAnchorEl(null);
       }

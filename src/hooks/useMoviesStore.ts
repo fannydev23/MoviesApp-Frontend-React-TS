@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {RootState} from '../store/store'
 import { onLoadMovies } from '../store/movies/moviesSlice';
 import { moviesApi } from '../api';
+import { onSelectGenre } from '../store';
 
 
 // let listMovies: Movie[] = [
@@ -57,6 +58,7 @@ export const useMoviesStore = () => {
             const { data } = await moviesApi.get(`api/Movies/Search?query=${search}`);
 
             dispatch(onLoadMovies(data));
+            dispatch(onSelectGenre(null)); //Reset the genre selected
 
 
 
