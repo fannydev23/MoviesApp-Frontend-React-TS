@@ -30,7 +30,6 @@ export const useActorsStore = () => {
             const { data } = await moviesApi.get('/api/Actors');
 
             dispatch(onLoadActors(data));
-            console.log(actors);
 
 
         } catch (error) {

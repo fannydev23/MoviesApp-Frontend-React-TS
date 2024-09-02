@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Divider, Grid, Grid2, IconButton, InputBase} from '@mui/material'
+import { Divider, Grid, IconButton, InputBase} from '@mui/material'
 import { Clear, Search } from '@mui/icons-material'
 import { GenreMenu } from '../../ui/components/GenreMenu'
 import { MovieItem } from '../components/MovieItem'
